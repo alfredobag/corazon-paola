@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Para Paola 💖</title>
+
+<style>
+  :root{
+    --pink:#ff4f9a;
+    --pink2:#ff77b7;
+    --bg1:#fff0f6;
+    --bg2:#ffffff;
+    --bg3:#ffe3f0;
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:"Courier New", monospace;
+    overflow:hidden;
+    background:
+      radial-gradient(900px 500px at 20% 10%, var(--bg3), transparent 60%),
+      radial-gradient(900px 500px at 80% 90%, #ffeaf4, transparent 60%),
+      linear-gradient(135deg, var(--bg1), var(--bg2));
+  }
+
+  /* brillo suave */
+  .glow{
+    position:absolute;
+    inset:-40%;
+    background: radial-gradient(circle at 50% 50%, rgba(255,79,154,.18), transparent 55%);
+    filter: blur(30px);
+    animation: drift 10s ease-in-out infinite alternate;
+    pointer-events:none;
+  }
+  @keyframes drift{
+    from { transform: translate(-2%, -1%) scale(1); }
+    to   { transform: translate( 2%,  1%) scale(1.05); }
+  }
+
+  /* corazones flotando */
+  .hearts{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+  }
+  .heart-float{
+    position:absolute;
+    bottom:-60px;
+    color: var(--pink);
+    opacity:.35;
+    animation: floatUp linear infinite;
+    filter: drop-shadow(0 0 6px rgba(255,79,154,.25));
+    user-select:none;
+  }
+  @keyframes floatUp{
+    0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity:0; }
+    10%  { opacity:.35; }
+    100% { transform: translateY(-120vh) translateX(40px) rotate(20deg); opacity:0; }
+  }
+
+  /* tarjeta central */
+  .card{
+    position:relative;
+    width:min(920px, 92vw);
+    padding:28px 22px 26px;
+    border-radius:26px;
+    background: rgba(255,255,255,.88);
+    border: 1px solid rgba(255,79,154,.18);
+    box-shadow: 0 20px 60px rgba(0,0,0,.12);
+    text-align:center;
+    z-index:1;
+  }
+
+  .title{
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    margin:0 0 8px;
+    color:#b40059;
+    font-weight:900;
+    font-size: clamp(18px, 2.4vw, 24px);
+  }
+  .subtitle{
+    margin:0 0 16px;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    color: rgba(180,0,89,.75);
+    font-size: clamp(13px, 2vw, 16px);
+  }
+
+  #form{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom: 14px;
+  }
+  input{
+    padding:12px 14px;
+    font-size:16px;
+    border-radius:14px;
+    border:1px solid rgba(255,79,154,.25);
+    outline:none;
+    width:min(420px, 78vw);
+    background: rgba(255,255,255,.95);
+  }
+  button{
+    padding:12px 18px;
+    font-size:16px;
+    border-radius:14px;
+    border:none;
+    cursor:pointer;
+    color:white;
+    background: linear-gradient(135deg, var(--pink), var(--pink2));
+    box-shadow: 0 12px 24px rgba(255,79,154,.25);
+  }
+
+  /* latido */
+  @keyframes beat {
+    0%   { transform: scale(1); }
+    25%  { transform: scale(1.05); }
+    40%  { transform: scale(0.98); }
+    60%  { transform: scale(1.09); }
+    100% { transform: scale(1); }
+  }
+
+  pre{
+    margin: 6px auto 0;
+    color: var(--pink);
+    font-size: clamp(14px, 1.8vw, 18px);
+    line-height: 1.18;
+    white-space: pre;
+    display:inline-block;
+    animation: beat 1.15s infinite;
+    filter: drop-shadow(0 0 10px rgba(255,79,154,.15));
+  }
+
+  .message{
+    margin-top: 16px;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    font-size: clamp(18px, 2.6vw, 26px);
+    font-weight: 900;
+    color: #b40059;
+    text-shadow: 0 6px 20px rgba(255,79,154,.18);
+  }
+</style>
+</head>
+
+<body>
+  <div class="glow"></div>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="card">
+    <h1 class="title">💖 Un mensajito para ti</h1>
+
+
+    <div id="form">
+      <input id="nameInput" placeholder="Escribe tu nombre (default: PAOLA) 💗" />
+      <button onclick="drawHeart()">Ver 💞</button>
+    </div>
+
+    <pre id="heart"></pre>
+    <div class="message" id="message"></div>
+  </div>
+
+<script>
+  // corazones flotando (decoración)
+  const heartsWrap = document.getElementById("hearts");
+  const HEARTS = ["💗","💖","💞","💘","💕","💓"];
+
+  function spawnHearts(){
+    for(let i=0;i<22;i++){
+      const s = document.createElement("div");
+      s.className = "heart-float";
+      s.textContent = HEARTS[Math.floor(Math.random()*HEARTS.length)];
+      s.style.left = (Math.random()*100) + "vw";
+      s.style.animationDuration = (8 + Math.random()*7) + "s";
+      s.style.animationDelay = (Math.random()*6) + "s";
+      s.style.fontSize = (14 + Math.random()*20) + "px";
+      heartsWrap.appendChild(s);
+    }
+  }
+  spawnHearts();
+
+  function drawHeart(){
+    const raw = (document.getElementById("nameInput").value || "PAOLA").trim();
+    const name = raw.length ? raw.toUpperCase() : "PAOLA";
+    document.getElementById("form").style.display="none";
+
+    const heart = `    
+            ${name}             ${name}
+           ${name}${name}        ${name}${name}
+          ${name}${name}${name}   ${name}${name}${name}
+          ${name}${name}${name}   ${name}${name}${name}
+         ${name}${name}${name}${name}${name} ${name}${name}${name}
+         ${name}${name}${name}${name}${name} ${name}${name}${name}
+         ${name}${name}${name}${name}${name} ${name}${name}${name}
+          ${name}${name}${name}${name}${name}${name}${name}
+          ${name}${name}${name}${name}${name}${name}${name}
+	   ${name}${name}${name}${name}${name}${name}
+           ${name}${name}${name}${name}${name}${name}
+            ${name}${name}${name}${name}${name}
+            ${name}${name}${name}${name}${name}
+             ${name}${name}${name}${name}
+             ${name}${name}${name}${name}
+              ${name}${name}${name}
+              ${name}${name}${name}
+               ${name}${name}
+               ${name}${name}
+                ${name}
+`;
+
+    document.getElementById("heart").textContent = heart;
+    document.getElementById("message").innerHTML = "ERES EL AMOR DE MI VIDA<br>TE AMO 💖";
+  }
+</script>
+</body>
+</html>
