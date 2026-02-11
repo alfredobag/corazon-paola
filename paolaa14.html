@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Paola ❤️</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family: system-ui, sans-serif;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background: linear-gradient(135deg,#ff9eb5,#ffc3d0,#ffdbe6);
+}
+
+/* FONDO SUAVE CON BRILLO */
+body::before{
+  content:"";
+  position:fixed;
+  inset:-30%;
+  background:
+    radial-gradient(circle at 20% 30%,rgba(255,255,255,.6),transparent 60%),
+    radial-gradient(circle at 80% 70%,rgba(255,100,150,.4),transparent 60%);
+  animation: moveGlow 8s ease-in-out infinite alternate;
+  z-index:-1;
+}
+@keyframes moveGlow{
+  from{transform:translate(-20px,-20px) scale(1.05)}
+  to{transform:translate(20px,20px) scale(1.1)}
+}
+
+.card{
+  width:92vw;
+  max-width:720px;
+  background:rgba(255,255,255,.9);
+  backdrop-filter:blur(12px);
+  padding:28px 22px;
+  border-radius:26px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.15);
+}
+
+h1{
+  font-size: clamp(28px,5vw,44px);
+  margin-bottom:6px;
+}
+
+.sub{
+  font-size: clamp(14px,2.5vw,18px);
+  opacity:.85;
+  margin-bottom:6px;
+}
+
+.bubble{
+  background:#fff;
+  padding:14px;
+  border-radius:16px;
+  margin:16px 0 20px;
+  font-size: clamp(15px,2.5vw,18px);
+}
+
+.stage{
+  height: clamp(320px, 65vw, 450px);
+  background: rgba(255,255,255,.6);
+  border-radius:18px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+button{
+  border:none;
+  padding:12px 22px;
+  border-radius:999px;
+  font-weight:800;
+  cursor:pointer;
+  position:absolute;
+  box-shadow:0 12px 30px rgba(0,0,0,.15);
+}
+
+#yes{
+  background:#111;
+  color:#fff;
+  left:40%;
+  top:75%;
+  transform:translate(-50%,-50%);
+}
+
+#no{
+  background:#fff;
+  color:#111;
+  left:65%;
+  top:75%;
+  transform:translate(-50%,-50%);
+  border:1px solid rgba(0,0,0,.1);
+}
+
+.success{
+  display:none;
+  text-align:center;
+  width:100%;
+}
+
+.success h1{
+  font-size: clamp(32px,6vw,52px);
+  margin-bottom:8px;
+}
+
+.media{
+  width:100%;
+  height: clamp(230px, 45vw, 320px);
+  border-radius:18px;
+  overflow:hidden;
+  position:relative;
+  box-shadow:0 15px 40px rgba(0,0,0,.25);
+}
+
+.media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.caption{
+  position:absolute;
+  bottom:14px;
+  left:14px;
+  right:14px;
+  color:#fff;
+  font-weight:900;
+  text-shadow:0 6px 18px rgba(0,0,0,.7);
+  font-size: clamp(15px,2.5vw,20px);
+}
+
+/* MUCHOS CORAZONES */
+.heart{
+  position:absolute;
+  bottom:-20px;
+  font-size:22px;
+  animation: floatUp linear forwards;
+  opacity:.9;
+}
+
+@keyframes floatUp{
+  to{
+    transform: translateY(-600px) rotate(20deg);
+    opacity:0;
+  }
+}
+
+.footer{
+  margin-top:16px;
+  font-size:14px;
+  opacity:.8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Hey Paola ❤️</h1>
+
+  <div class="sub">Freddy te quiere hacer una pregunta…</div>
+  <div class="sub">No acepta un no por respuesta 🥺</div>
+
+  <div class="bubble">
+    ¿Quieres ser mi San Valentín? 💖
+  </div>
+
+  <div class="stage" id="stage">
+
+    <button id="yes">Sí 💘</button>
+    <button id="no">No</button>
+
+    <div class="success" id="success">
+      <h1>VAMOOOOS 💕</h1>
+
+      <div class="media">
+        <img src="paola.jpeg" alt="Paola">
+        <div class="caption">
+          Ya sabía que ibas a decir que sí ajajajja 🥺💖 <br>
+          Te amo amor de mi vida 💘✨
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="footer">
+    El botón No está nervioso 😏
+  </div>
+
+</div>
+
+<script>
+const btnNo = document.getElementById("no");
+const btnYes = document.getElementById("yes");
+const success = document.getElementById("success");
+const stage = document.getElementById("stage");
+
+function moveNo(){
+  const x = Math.random()*70+15;
+  const y = Math.random()*50+30;
+  btnNo.style.left = x+"%";
+  btnNo.style.top = y+"%";
+}
+
+btnNo.addEventListener("mouseenter", moveNo);
+btnNo.addEventListener("touchstart", moveNo);
+btnNo.addEventListener("click", moveNo);
+
+btnYes.addEventListener("click", ()=>{
+  btnNo.style.display="none";
+  btnYes.style.display="none";
+  success.style.display="block";
+});
+
+/* MUCHOS CORAZONES */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  const emojis=["💖","💗","💘","💕","💞","✨"];
+  h.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  h.style.left=Math.random()*100+"%";
+  h.style.animationDuration=(Math.random()*2+2)+"s";
+  stage.appendChild(h);
+  setTimeout(()=>h.remove(),4000);
+},180);
+</script>
+
+</body>
+</html>
